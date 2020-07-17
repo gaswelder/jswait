@@ -1,9 +1,9 @@
-const http = require("http");
+const http = require("https");
 
 function get(url) {
   return new Promise((ok, fail) => {
     http
-      .get(url, res => {
+      .get(url, (res) => {
         const { statusCode } = res;
         if (statusCode !== 200) {
           // Consume response data to free up memory
@@ -12,18 +12,18 @@ function get(url) {
           return;
         }
         let rawData = "";
-        res.on("data", chunk => {
+        res.on("data", (chunk) => {
           rawData += chunk;
         });
         res.on("end", () => {
           ok(rawData);
         });
       })
-      .on("error", e => {
+      .on("error", (e) => {
         fail(e);
       });
   });
 }
 
-const x = get("http://nodejs.org/dist/index.json");
+const x = get("https://nodejs.org/dist/index.json");
 console.log(x);
