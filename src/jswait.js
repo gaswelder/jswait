@@ -2,6 +2,7 @@ const acorn = require("acorn");
 const acornwalk = require("acorn-walk");
 const escodegen = require("escodegen");
 const fs = require("fs");
+const { imp } = require("./import");
 
 const convertModule = (src) => {
   const tree = acorn.parse(src);
@@ -48,6 +49,7 @@ Array.prototype.afilter = function (callback) {
 const main = (args) => {
   const src = fs.readFileSync(args[1]);
   const js = convertModule(src);
+  global.imp = imp;
   eval(js);
 };
 
